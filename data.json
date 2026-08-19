@@ -1,77 +1,12 @@
-{
-  "h78jb": {
-    "name": "Montagem Rugada (Ultra Slowed + Hardstyle Remix)",
-    "type": "audio",
-    "thumbnail":"https://i.ytimg.com/vi/G07B6uUeaBU/maxresdefault.jpg",
-    "url": "./music/dm5622.m4a",
-    "description":"Provided to F0T2 by F0T2\\\\\\Author: Sayfalse, cape, JXRNDO\\Audio From: audio.com@Phonk",
-    "author": "cape/Sayfalse/JXRNDO",
-    "year":"2025"
-  },
-  "flower_r4sr0": {
-    "name": "Flower_r4sr0",
-    "handle": "@flower_r4sr0",
-    "pfpurl": "https://example.com/pfp.png",
-    "type": "channel",
-    "desc": "Phonk producer and creator.",
-    "tags":"verified/artist/dev/owner/admin"
-  },
-   "cape": {
-    "name": "cape",
-    "handle": "cape",
-    "type": "channel",
-    "tags":"verified/artist"
-  },
-   "Sayfalse": {
-    "name": "Sayfalse",
-    "handle": "Sayfalse",
-    "type": "channel",
-    "tags":"verified/artist"
-  },
-   "JXRNDO": {
-    "name": "JXRNDO",
-    "handle": "JXRNDO",
-    "type": "channel",
-    "tags":"verified/artist"
-  },
-  "album1": {
-    "name": "Montagem Rugada (Hardstyle Remix)",
-    "type": "album",
-    "thumbnail": "https://i.ytimg.com/vi/G07B6uUeaBU/maxresdefault.jpg",
-    "authors": "cape/Sayfalse/JXRNDO",
-    "contentids": "h78jb"
-  },
-  "98jnuajiw" {
-    "name":"HEAVENLY JUMPSTYLE",
-    "type":"audio",
-    "thumbnail":"https://i.ytimg.com/vi/pSkW_rR65-g/maxresdefault.jpg",
-    "url":"./music/HEAVENLY JUMPSTYLE.mp3",
-    "description":"Provided to F0T2 by F0T2\\\\\\Author: INNXCENCE, Sxilwix, TWXNY\\Audio From: audio.com@Phonk"
-    "year":"2026",
-    "author":"INNXCENCE/Sxilwix/TWXNY"
-},
-"koljhb701nja9": {
-    "name": "INNXCENCE",
-    "handle": "INNXCENCE",
-    "type": "channel",
-    "tags":"verified/artist"
-},
-"h8jhau8ja8h": {
-    "name": "Sxilwix",
-    "handle": "Sxilwix",
-    "type": "channel",
-    "tags":"verified/artist"
-},
-"8j88hsh8ha": {
-    "name": "TWXNY",
-    "handle": "TWXNY",
-    "type": "channel",
-    "tags":"verified/artist"
-},
-"8shhua8": {
-    "name": "HEAVENLY JUMPSTYLE",
-    "type": "album",
-    "thumbnail": "https://i.ytimg.com/vi/pSkW_rR65-g/maxresdefault.jpg",
-    "authors": "INNXCENCE/Sxilwix/TWXNY",
-    "contentids": "98jnuajiw"
-  }
+[
+"h78jb": {"name": "Montagem Rugada (Ultra Slowed + Hardstyle Remix)","type": "audio","thumbnail":"https://i.ytimg.com/vi/G07B6uUeaBU/maxresdefault.jpg","url": "./music/dm5622.m4a","description":"Provided to F0T2 by F0T2\\\\\\Author: Sayfalse, cape, JXRNDO\\Audio From: audio.com@Phonk","author": "cape/Sayfalse/JXRNDO","year":"2025"},
+"flower_r4sr0": {"name": "Flower_r4sr0","handle": "@flower_r4sr0","pfpurl": "https://example.com/pfp.png","type": "channel","desc": "Phonk producer and creator.","tags":"verified/artist/dev/owner/admin"},
+"cape": {"name": "cape","handle": "cape","type": "channel","tags":"verified/artist"},
+"Sayfalse": {"name": "Sayfalse","handle": "Sayfalse","type": "channel","tags":"verified/artist"},
+"JXRNDO": {"name": "JXRNDO","handle": "JXRNDO","type": "channel","tags":"verified/artist"},
+"album1": {"name": "Montagem Rugada (Hardstyle Remix)","type": "album","thumbnail": "https://i.ytimg.com/vi/G07B6uUeaBU/maxresdefault.jpg","authors": "cape/Sayfalse/JXRNDO","contentids": "h78jb"},
+"98jnuajiw" {"name":"HEAVENLY JUMPSTYLE","type":"audio","thumbnail":"https://i.ytimg.com/vi/pSkW_rR65-g/maxresdefault.jpg","url":"./music/HEAVENLY JUMPSTYLE.mp3","description":"Provided to F0T2 by F0T2\\\\\\Author: INNXCENCE, Sxilwix, TWXNY\\Audio From: audio.com@Phonk""year":"2026","author":"INNXCENCE/Sxilwix/TWXNY"},
+"koljhb701nja9": {"name": "INNXCENCE","handle": "INNXCENCE","type": "channel","tags":"verified/artist"},
+"h8jhau8ja8h": {"name": "Sxilwix","handle": "Sxilwix","type": "channel","tags":"verified/artist"},
+"8j88hsh8ha": {"name": "TWXNY","handle": "TWXNY","type": "channel","tags":"verified/artist"},
+"8shhua8": {"name": "HEAVENLY JUMPSTYLE","type": "album","thumbnail": "https://i.ytimg.com/vi/pSkW_rR65-g/maxresdefault.jpg","authors": "INNXCENCE/Sxilwix/TWXNY","contentids": "98jnuajiw"}
