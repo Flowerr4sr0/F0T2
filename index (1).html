@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>F0T2</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0f1117;color:#fff;font-family:Arial,Helvetica,sans-serif}
+button,input{font:inherit}
+button{color:inherit}
+header{height:64px;position:sticky;top:0;z-index:1000;display:flex;align-items:center;padding:0 20px;background:#181b24;border-bottom:1px solid #292e3b}
+.header-left{display:flex;align-items:center;gap:12px}
+.logo{font-size:20px;font-weight:800}
+.explore-button{border:0;border-radius:9px;padding:8px 14px;background:#252a38;color:#fff;cursor:pointer}
+.explore-button:hover{background:#343b4e}
+main{width:100%;max-width:1200px;margin:auto;padding:25px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.channel-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,150px));gap:12px}
+.card{overflow:hidden;background:#181b24;border:1px solid #292e3b;border-radius:14px;cursor:pointer;transition:.15s}
+.card:hover{transform:translateY(-3px);border-color:#59647d;box-shadow:0 8px 25px #0004}
+.card-content{padding:13px}
+.card h2{margin:0 0 6px;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.type{display:inline-block;margin-bottom:8px;padding:4px 8px;background:#252a38;border-radius:999px;color:#9eabd0;font-size:11px;text-transform:uppercase}
+.description{margin:0;color:#9ca4b5;font-size:13px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.thumbnail{width:100%;height:105px;display:block;object-fit:cover;background:#10131a}
+.thumbnail-fallback{width:100%;height:105px;display:flex;align-items:center;justify-content:center;background:#10131a;font-size:38px}
+.channel-card{width:100%;min-height:150px;text-align:center}
+.channel-card .channel-pfp{width:48px;height:48px;margin:10px auto 0}
+.channel-card .card-content{padding:8px}
+.channel-card h2{font-size:13px;margin:0 0 4px}
+.channel-card .handle{font-size:10px}
+.channel-card .description{font-size:10px;-webkit-line-clamp:2}
+.channel-card .badge{font-size:8px;padding:2px 4px}
+.channel-pfp{display:block;object-fit:cover;border-radius:50%;background:#252936}
+.handle,.channel-handle{color:#6ea8ff;font-size:13px}
+.name-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.name-row h2{margin:0}
+.tags{display:inline-flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:3px}
+.badge{display:inline-flex;align-items:center;justify-content:center;gap:3px;padding:3px 6px;border-radius:999px;font-size:10px;font-weight:700;white-space:nowrap;background:#252a38;color:#cbd3e8}
+.badge.verified{background:#263c61;color:#75b6ff}
+.badge.admin{background:#40321f;color:#ffc766}
+.badge.owner{background:#493326;color:#ffb46b}
+.badge.dev{background:#293c32;color:#80dca4}
+.badge.artist{background:#3b2b4b;color:#d7a5ff}
+.item-page{width:100%;max-width:900px;margin:auto}
+.item-page h1{margin:0 0 20px;font-size:32px}
+.box{width:100%;margin-top:15px;padding:18px;background:#181b24;border:1px solid #292e3b;border-radius:14px}
+.label{margin-bottom:8px;color:#8b93a7;font-size:12px;text-transform:uppercase;letter-spacing:.4px}
+.authors{display:flex;flex-wrap:wrap;gap:10px}
+.author{border:0;padding:7px 11px;background:#252a38;border-radius:999px;color:#8eb8ff;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.author:hover{background:#343b4e}
+.item-thumbnail{width:100%;max-height:500px;display:block;object-fit:cover;border-radius:12px;background:#10131a}
+.pfp-large{width:130px;height:130px;display:block;object-fit:cover;border-radius:50%;background:#252936;margin-bottom:18px}
+.channel-description{color:#c9ced9;line-height:1.6}
+.channel-content{margin-top:30px}
+.channel-title{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+.channel-title h1{margin:0}
+.album-header{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap}
+.album-cover,.album-cover-fallback{width:220px;height:220px;border-radius:14px;background:#10131a}
+.album-cover{object-fit:cover}
+.album-cover-fallback{display:flex;align-items:center;justify-content:center;font-size:70px}
+.album-info{flex:1;min-width:220px}
+.album-info h1{margin:0 0 10px}
+.album-content{margin-top:25px}
+.album-item{display:flex;align-items:center;gap:14px;padding:11px;margin-bottom:8px;background:#181b24;border:1px solid #292e3b;border-radius:11px;cursor:pointer;transition:.15s}
+.album-item:hover{background:#202430;transform:translateX(2px)}
+.album-item-thumb,.album-item-thumb-fallback{width:55px;height:55px;border-radius:8px;background:#10131a;flex-shrink:0}
+.album-item-thumb{object-fit:cover}
+.album-item-thumb-fallback{display:flex;align-items:center;justify-content:center;font-size:25px}
+.album-item-info{min-width:0;flex:1}
+.album-item-name{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.album-item-type{color:#8b93a7;font-size:11px;margin-top:4px}
+.media-player{width:100%;overflow:hidden;background:#080a0f;border-radius:14px;border:1px solid #292e3b}
+.media-source{display:none}
+.media-video{width:100%;min-height:450px;max-height:700px;display:block;object-fit:contain;background:#000;cursor:pointer}
+.audio-visual{width:100%;height:260px;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,#242a3a,#10131b 50%,#080a0f);cursor:pointer}
+.audio-icon{width:110px;height:110px;display:flex;align-items:center;justify-content:center;background:#252a38;border-radius:50%;font-size:48px;transition:.15s}
+.audio-visual.playing .audio-icon{transform:scale(1.08)}
+.player-controls{padding:10px 13px 12px;background:#151821}
+.seek-row{display:flex;margin-bottom:8px}
+.seekbar{width:100%;height:5px;appearance:none;background:#343a4b;border-radius:99px;outline:0;cursor:pointer}
+.seekbar::-webkit-slider-thumb{appearance:none;width:13px;height:13px;background:#fff;border-radius:50%;cursor:pointer}
+.seekbar::-moz-range-thumb{width:13px;height:13px;background:#fff;border:0;border-radius:50%;cursor:pointer}
+.controls-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.control-button{min-width:36px;height:36px;border:0;border-radius:8px;background:#252a38;color:#fff;cursor:pointer}
+.control-button:hover{background:#343b4e}
+.time{min-width:90px;color:#aab1c2;font-size:12px;text-align:center}
+.volume-container{display:flex;align-items:center;gap:6px}
+.volume{width:80px;height:4px;appearance:none;background:#343a4b;border-radius:99px;outline:0;cursor:pointer}
+.volume::-webkit-slider-thumb{appearance:none;width:12px;height:12px;background:#fff;border-radius:50%;cursor:pointer}
+.volume::-moz-range-thumb{width:12px;height:12px;background:#fff;border:0;border-radius:50%;cursor:pointer}
+.speed-menu{position:relative}
+.speed-options{position:absolute;bottom:45px;right:0;min-width:100px;padding:5px;background:#202430;border:1px solid #343a4b;border-radius:10px;display:none;z-index:20}
+.speed-options.show{display:block}
+.speed-option{width:100%;padding:8px;border:0;background:transparent;color:#fff;text-align:left;border-radius:6px;cursor:pointer}
+.speed-option:hover{background:#343b4e}
+.audio-effects{margin-top:12px;background:#151821;border:1px solid #292e3b;border-radius:12px;padding:14px}
+.effects-title{font-size:14px;font-weight:700;margin-bottom:12px}
+.effects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:15px}
+.effect-control{background:#1c202b;border:1px solid #292e3b;border-radius:9px;padding:10px}
+.effect-control label{display:flex;justify-content:space-between;font-size:11px;color:#aeb5c5;margin-bottom:8px}
+.effect-value{color:#fff;font-weight:700}
+.effect-range{width:100%;height:4px;appearance:none;background:#343a4b;border-radius:99px;outline:0;cursor:pointer}
+.effect-range::-webkit-slider-thumb{appearance:none;width:12px;height:12px;background:#fff;border-radius:50%;cursor:pointer}
+.effect-range::-moz-range-thumb{width:12px;height:12px;background:#fff;border:0;border-radius:50%;cursor:pointer}
+.eq-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:7px;padding-top:8px}
+.eq-band{text-align:center}
+.eq-band label{display:block;font-size:9px;color:#8f97a9;margin-top:7px}
+.eq-range{width:100%;height:90px;appearance:slider-vertical;writing-mode:vertical-lr;direction:rtl;cursor:pointer}
+.eq-value{font-size:8px;color:#9ca4b5}
+.effects-reset{margin-top:12px;padding:7px 10px;border:0;border-radius:7px;background:#252a38;color:#fff;cursor:pointer;font-size:11px}
+.empty,.loading,.error{padding:60px 20px;text-align:center;color:#8b93a7}
+.error{color:#ff6b6b}
+.section-title{margin:30px 0 15px}
+@media(max-width:700px){
+.effects-grid{grid-template-columns:1fr 1fr}
+.eq-grid{grid-template-columns:repeat(5,1fr);row-gap:15px}
+}
+@media(max-width:600px){
+header{height:60px;padding:0 14px}
+.logo{font-size:16px}
+main{padding:16px}
+.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.channel-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+.thumbnail,.thumbnail-fallback{height:90px}
+.channel-card .channel-pfp{width:43px;height:43px}
+.item-page h1{font-size:26px}
+.album-cover,.album-cover-fallback{width:160px;height:160px}
+.media-video{min-height:250px}
+.audio-visual{height:210px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-left">
+<div class="logo">F0T2</div>
+<button class="explore-button" onclick="goExplore()">🏠 Explore</button>
+</div>
+</header>
+
+<main id="app">
+<div class="loading">Loading F0T2...</div>
+</main>
+
+<script>
+let DATA={};
+
+const app=document.getElementById("app");
+
+fetch("./data.json")
+.then(r=>{
+ if(!r.ok)throw new Error("Could not load data.json");
+ return r.json();
+})
+.then(data=>{
+ DATA=data;
+ route();
+})
+.catch(err=>{
+ console.error(err);
+ app.innerHTML='<div class="error"><h1>F0T2 Error 💀</h1><p>Could not load data.json.</p></div>';
+});
+
+window.addEventListener("hashchange",route);
+
+function route(){
+
+ const hash=location.hash.replace(/^#/,"");
+
+ if(!hash){
+  showExplore(DATA);
+  return;
+ }
+
+ const parts=hash.split("/");
+ const type=decodeURIComponent(parts[0]||"");
+ const id=decodeURIComponent(parts.slice(1).join("/")||"");
+
+ if(!id){
+  showExplore(DATA);
+  return;
+ }
+
+ if(type==="channel"){
+  showChannel(DATA,id);
+  return;
+ }
+
+ if(type==="audio"){
+  showMedia(DATA,id,"audio");
+  return;
+ }
+
+ if(type==="video"){
+  showMedia(DATA,id,"video");
+  return;
+ }
+
+ if(type==="album"){
+  showAlbum(DATA,id);
+  return;
+ }
+
+ showExplore(DATA);
+}
+
+function e(v){
+ return String(v??"")
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+
+function desc(v){
+ return e(v).replaceAll("\\","<br>");
+}
+
+function norm(v){
+ return String(v||"").trim().replace(/^@/,"").toLowerCase();
+}
+
+function findChannel(data,handle){
+
+ const target=norm(handle);
+
+ return Object.keys(data).find(key=>{
+  const item=data[key];
+
+  return item&&
+  item.type==="channel"&&
+  norm(item.handle)===target;
+ });
+}
+
+function getChannel(data,handle){
+
+ const key=findChannel(data,handle);
+
+ return key?data[key]:null;
+}
+
+function badges(channel){
+
+ if(!channel||!channel.tags)return"";
+
+ return String(channel.tags)
+ .split("/")
+ .map(x=>x.trim())
+ .filter(Boolean)
+ .map(tagBadge)
+ .join("");
+}
+
+function tagBadge(tag){
+
+ const lower=String(tag).toLowerCase();
+
+ if(lower==="verified")
+  return'<span class="badge verified">✓ Verified</span>';
+
+ if(lower==="admin")
+  return'<span class="badge admin">🛡 Admin</span>';
+
+ if(lower==="owner")
+  return'<span class="badge owner">👑 Owner</span>';
+
+ if(lower==="dev"||lower==="developer")
+  return'<span class="badge dev">💻 Dev</span>';
+
+ if(lower==="artist")
+  return'<span class="badge artist">🎵 Artist</span>';
+
+ return'<span class="badge">'+e(tag)+'</span>';
+}
+
+function showExplore(data){
+
+ const channels=[];
+ const media=[];
+ const albums=[];
+
+ Object.keys(data).forEach(key=>{
+
+  const item=data[key];
+
+  if(!item)return;
+
+  if(item.type==="channel")
+   channels.push([key,item]);
+
+  else if(item.type==="audio"||item.type==="video")
+   media.push([key,item]);
+
+  else if(item.type==="album")
+   albums.push([key,item]);
+
+ });
+
+ let html="";
+
+ if(channels.length){
+
+  html+=`
+  <h2>Channels</h2>
+  <div class="channel-grid">
+  ${channels.map(([k,v])=>channelCard(k,v)).join("")}
+  </div>`;
+ }
+
+ if(albums.length){
+
+  html+=`
+  <h2 class="section-title">Albums</h2>
+  <div class="grid">
+  ${albums.map(([k,v])=>albumCard(k,v)).join("")}
+  </div>`;
+ }
+
+ if(media.length){
+
+  html+=`
+  <h2 class="section-title">Content</h2>
+  <div class="grid">
+  ${media.map(([k,v])=>mediaCard(k,v)).join("")}
+  </div>`;
+ }
+
+ app.innerHTML=html||
+ '<div class="empty"><h2>Nothing here yet.</h2></div>';
+}
+
+function channelCard(key,item){
+
+ return`
+ <div class="card channel-card"
+ onclick="openChannel('${encodeURIComponent(key)}')">
+
+ ${
+ item.pfpurl
+ ?`<img class="channel-pfp" src="${e(item.pfpurl)}" alt="">`
+ :`<div class="channel-pfp" style="display:flex;align-items:center;justify-content:center;margin-left:auto;margin-right:auto">👤</div>`
+ }
+
+ <div class="card-content">
+
+ <div class="name-row">
+
+ <h2>${e(item.name)}</h2>
+
+ <span class="tags">
+ ${badges(item)}
+ </span>
+
+ </div>
+
+ <div class="handle">
+ ${e(item.handle)}
+ </div>
+
+ <p class="description">
+ ${desc(item.desc)}
+ </p>
+
+ </div>
+ </div>`;
+}
+
+function mediaCard(key,item){
+
+ const emoji=item.type==="audio"?"🎵":"🎬";
+
+ return`
+ <div class="card"
+ onclick="openMedia('${encodeURIComponent(key)}','${e(item.type)}')">
+
+ ${
+ item.thumbnail
+ ?`<img class="thumbnail" src="${e(item.thumbnail)}" alt="">`
+ :`<div class="thumbnail-fallback">${emoji}</div>`
+ }
+
+ <div class="card-content">
+
+ <span class="type">${e(item.type)}</span>
+
+ <h2>${e(item.name)}</h2>
+
+ <p class="description">
+ ${desc(item.description)}
+ </p>
+
+ </div>
+ </div>`;
+}
+
+function albumCard(key,item){
+
+ return`
+ <div class="card"
+ onclick="openAlbum('${encodeURIComponent(key)}')">
+
+ ${
+ item.thumbnail
+ ?`<img class="thumbnail" src="${e(item.thumbnail)}" alt="">`
+ :`<div class="thumbnail-fallback">💿</div>`
+ }
+
+ <div class="card-content">
+
+ <span class="type">Album</span>
+
+ <h2>${e(item.name)}</h2>
+
+ <p class="description">
+ ${desc(item.description||"Album")}
+ </p>
+
+ </div>
+ </div>`;
+}
+
+function showChannel(data,channelId){
+
+ const channel=data[channelId];
+
+ if(!channel||channel.type!=="channel"){
+  notFound();
+  return;
+ }
+
+ const handle=norm(channel.handle);
+ const content=[];
+
+ Object.keys(data).forEach(key=>{
+
+  const item=data[key];
+
+  if(!item||
+  (item.type!=="audio"&&item.type!=="video"))
+   return;
+
+  const authors=String(item.author||"")
+  .split("/")
+  .map(x=>x.trim())
+  .filter(Boolean);
+
+  if(authors.some(a=>norm(a)===handle))
+   content.push([key,item]);
+
+ });
+
+ app.innerHTML=`
+
+ <div class="item-page">
+
+ ${
+ channel.pfpurl
+ ?`<img class="pfp-large" src="${e(channel.pfpurl)}" alt="">`
+ :`<div class="pfp-large" style="display:flex;align-items:center;justify-content:center;font-size:60px">👤</div>`
+ }
+
+ <div class="channel-title">
+
+ <h1>${e(channel.name)}</h1>
+
+ <span class="tags">
+ ${badges(channel)}
+ </span>
+
+ </div>
+
+ <div class="channel-handle">
+ ${e(channel.handle)}
+ </div>
+
+ <div class="box">
+
+ <div class="label">
+ Description
+ </div>
+
+ <div class="channel-description">
+ ${desc(channel.desc)}
+ </div>
+
+ </div>
+
+ <div class="channel-content">
+
+ <h2>Content</h2>
+
+ ${
+ content.length
+ ?`<div class="grid">
+ ${content.map(([k,v])=>mediaCard(k,v)).join("")}
+ </div>`
+ :`<div class="empty">No content yet.</div>`
+ }
+
+ </div>
+
+ </div>`;
+}
+
+function showMedia(data,mediaId,type){
+
+ const item=data[mediaId];
+
+ if(!item||item.type!==type){
+  notFound();
+  return;
+ }
+
+ const authors=String(item.author||"")
+ .split("/")
+ .map(x=>x.trim())
+ .filter(Boolean);
+
+ app.innerHTML=`
+
+ <div class="item-page">
+
+ <h1>${e(item.name)}</h1>
+
+ ${
+ item.thumbnail
+ ?`
+ <div class="box">
+ <img class="item-thumbnail"
+ src="${e(item.thumbnail)}"
+ alt="">
+ </div>`
+ :""
+ }
+
+ <div class="box">
+
+ <div class="label">
+ Author${authors.length>1?"s":""}
+ </div>
+
+ <div class="authors">
+
+ ${
+ authors.length
+ ?authors.map(author=>{
+
+  const channel=getChannel(DATA,author);
+
+  return channel
+  ?`
+  <button class="author"
+  onclick="authorClick('${e(author)}')">
+
+  ${e(channel.name)}
+
+  <span class="tags">
+  ${badges(channel)}
+  </span>
+
+  </button>`
+  :`
+  <span class="author">
+  ${e(author)}
+  </span>`;
+
+ }).join("")
+ :`<span class="author">Unknown</span>`
+ }
+
+ </div>
+
+ </div>
+
+ <div class="box">
+
+ <div class="label">
+ Description
+ </div>
+
+ <div>
+ ${desc(item.description)}
+ </div>
+
+ </div>
+
+ <div class="box"
+ style="padding:0;border:0;background:transparent">
+
+ ${createPlayer(item)}
+
+ </div>
+
+ </div>`;
+
+ initializePlayer();
+}
+
+function showAlbum(data,albumId){
+
+ const album=data[albumId];
+
+ if(!album||album.type!=="album"){
+  notFound();
+  return;
+ }
+
+ const authors=String(album.authors||"")
+ .split("/")
+ .map(x=>x.trim())
+ .filter(Boolean);
+
+ const contentIds=String(album.contentids||"")
+ .split("/")
+ .map(x=>x.trim())
+ .filter(Boolean);
+
+ app.innerHTML=`
+
+ <div class="item-page">
+
+ <div class="album-header">
+
+ ${
+ album.thumbnail
+ ?`<img class="album-cover"
+ src="${e(album.thumbnail)}"
+ alt="">`
+ :`<div class="album-cover-fallback">
+ 💿
+ </div>`
+ }
+
+ <div class="album-info">
+
+ <h1>${e(album.name)}</h1>
+
+ <div class="label">
+ Album
+ </div>
+
+ <div class="authors">
+
+ ${
+ authors.length
+ ?authors.map(author=>{
+
+  const channel=getChannel(DATA,author);
+
+  return channel
+  ?`
+  <button class="author"
+  onclick="authorClick('${e(author)}')">
+
+  ${e(channel.name)}
+
+  <span class="tags">
+  ${badges(channel)}
+  </span>
+
+  </button>`
+  :`
+  <span class="author">
+  ${e(author)}
+  </span>`;
+
+ }).join("")
+ :`<span class="author">Unknown</span>`
+ }
+
+ </div>
+
+ ${
+ album.description
+ ?`
+ <div class="box">
+
+ <div class="label">
+ Description
+ </div>
+
+ <div>
+ ${desc(album.description)}
+ </div>
+
+ </div>`
+ :""
+ }
+
+ </div>
+ </div>
+
+ <div class="album-content">
+
+ <h2>Tracks</h2>
+
+ ${
+ contentIds.length
+ ?contentIds.map((cid,i)=>
+ albumItem(data,cid,i)).join("")
+ :`<div class="empty">
+ This album has no content.
+ </div>`
+ }
+
+ </div>
+
+ </div>`;
+}
+
+function albumItem(data,contentId,index){
+
+ const item=data[contentId];
+
+ if(!item){
+
+  return`
+  <div class="album-item">
+
+  <div class="album-item-info">
+
+  <div class="album-item-name">
+  ${index+1}. Unknown content
+  </div>
+
+  <div class="album-item-type">
+  Missing content
+  </div>
+
+  </div>
+
+  </div>`;
+ }
+
+ const route=item.type==="video"?"video":"audio";
+
+ return`
+ <div class="album-item"
+ onclick="openMedia('${encodeURIComponent(contentId)}','${route}')">
+
+ ${
+ item.thumbnail
+ ?`<img class="album-item-thumb"
+ src="${e(item.thumbnail)}"
+ alt="">`
+ :`<div class="album-item-thumb-fallback">
+ ${item.type==="video"?"🎬":"🎵"}
+ </div>`
+ }
+
+ <div class="album-item-info">
+
+ <div class="album-item-name">
+ ${index+1}. ${e(item.name)}
+ </div>
+
+ <div class="album-item-type">
+ ${e(item.type)}
+ </div>
+
+ </div>
+
+ </div>`;
+}
+
+function createPlayer(item){
+
+ const audio=item.type==="audio";
+
+ return`
+
+ <div class="media-player">
+
+ <${audio?"audio":"video"}
+ class="media-source ${audio?"":"media-video"}"
+ src="${e(item.url)}"
+ preload="metadata"
+ ${audio?"":"playsinline"}>
+ </${audio?"audio":"video"}>
+
+ ${
+ audio
+ ?`
+ <div class="audio-visual">
+
+ <div class="audio-icon">
+ 🎵
+ </div>
+
+ </div>`
+ :""
+ }
+
+ <div class="player-controls">
+
+ <div class="seek-row">
+
+ <input
+ class="seekbar"
+ type="range"
+ min="0"
+ max="100"
+ value="0"
+ step=".1">
+
+ </div>
+
+ <div class="controls-row">
+
+ <button class="control-button play-button">
+ ▶
+ </button>
+
+ <button class="control-button back-button">
+ ↶10
+ </button>
+
+ <button class="control-button forward-button">
+ 10↷
+ </button>
+
+ <div class="time">
+ 0:00 / 0:00
+ </div>
+
+ <div class="volume-container">
+
+ <button class="control-button mute-button">
+ 🔊
+ </button>
+
+ <input
+ class="volume"
+ type="range"
+ min="0"
+ max="1"
+ step=".01"
+ value="1">
+
+ </div>
+
+ <div class="speed-menu">
+
+ <button class="control-button speed-button">
+ 1×
+ </button>
+
+ <div class="speed-options">
+
+ ${[".5",".75","1","1.25","1.5","2"].map(x=>`
+
+ <button
+ class="speed-option"
+ data-speed="${x}">
+ ${x}×
+ </button>
+
+ `).join("")}
+
+ </div>
+ </div>
+
+ <button class="control-button fullscreen-button">
+ ⛶
+ </button>
+
+ </div>
+
+ </div>
+
+ ${audio?createEffects():""}
+
+ </div>`;
+}
+
+function createEffects(){
+
+ const bands=[
+ "32Hz","64Hz","125Hz","250Hz","500Hz",
+ "1kHz","2kHz","4kHz","8kHz","16kHz"
+ ];
+
+ return`
+
+ <div class="audio-effects">
+
+ <div class="effects-title">
+ 🎚️ Audio Effects
+ </div>
+
+ <div class="effects-grid">
+
+ <div class="effect-control">
+
+ <label>
+ <span>Preamp</span>
+ <span class="effect-value preamp-value">
+ 0 dB
+ </span>
+ </label>
+
+ <input
+ class="effect-range preamp"
+ type="range"
+ min="-12"
+ max="12"
+ step=".1"
+ value="0">
+
+ </div>
+
+ <div class="effect-control">
+
+ <label>
+ <span>Bass Boost</span>
+ <span class="effect-value bass-value">
+ 0 dB
+ </span>
+ </label>
+
+ <input
+ class="effect-range bass"
+ type="range"
+ min="0"
+ max="18"
+ step=".1"
+ value="0">
+
+ </div>
+
+ <div class="effect-control">
+
+ <label>
+ <span>Distortion</span>
+ <span class="effect-value distortion-value">
+ 0%
+ </span>
+ </label>
+
+ <input
+ class="effect-range distortion"
+ type="range"
+ min="0"
+ max="100"
+ value="0">
+
+ </div>
+
+ </div>
+
+ <div class="effects-title">
+ 10-Band Equalizer
+ </div>
+
+ <div class="eq-grid">
+
+ ${bands.map((band,i)=>`
+
+ <div class="eq-band">
+
+ <input
+ class="eq-range"
+ data-band="${i}"
+ type="range"
+ min="-12"
+ max="12"
+ step=".1"
+ value="0">
+
+ <div
+ class="eq-value"
+ data-eq-value="${i}">
+ 0 dB
+ </div>
+
+ <label>${band}</label>
+
+ </div>
+
+ `).join("")}
+
+ </div>
+
+ <button class="effects-reset">
+ Reset Effects
+ </button>
+
+ </div>`;
+}
+
+function setupAudioEffects(player){
+
+ const audio=player.querySelector(".media-source");
+
+ if(!audio||audio.tagName!=="AUDIO")
+  return null;
+
+ const AudioContext=
+ window.AudioContext||
+ window.webkitAudioContext;
+
+ if(!AudioContext)
+  return null;
+
+ const ctx=new AudioContext();
+
+ const source=ctx.createMediaElementSource(audio);
+
+ const preamp=ctx.createGain();
+
+ const bass=ctx.createBiquadFilter();
+
+ bass.type="lowshelf";
+ bass.frequency.value=120;
+ bass.gain.value=0;
+
+ const frequencies=[
+ 32,64,125,250,500,
+ 1000,2000,4000,8000,16000
+ ];
+
+ const eq=frequencies.map(freq=>{
+
+  const f=ctx.createBiquadFilter();
+
+  f.type="peaking";
+  f.frequency.value=freq;
+  f.Q.value=1;
+  f.gain.value=0;
+
+  return f;
+
+ });
+
+ const distortion=ctx.createWaveShaper();
+
+ distortion.oversample="4x";
+
+ const output=ctx.createGain();
+
+ source.connect(preamp);
+ preamp.connect(bass);
+
+ let previous=bass;
+
+ eq.forEach(f=>{
+  previous.connect(f);
+  previous=f;
+ });
+
+ previous.connect(distortion);
+ distortion.connect(output);
+ output.connect(ctx.destination);
+
+ function makeDistortion(amount){
+
+  if(amount<=0){
+
+   distortion.curve=null;
+   return;
+
+  }
+
+  const samples=44100;
+
+  const curve=new Float32Array(samples);
+
+  const k=amount+1;
+
+  for(let i=0;i<samples;i++){
+
+   const x=i*2/samples-1;
+
+   curve[i]=
+   ((3+k)*x*20*Math.PI/180)/
+   (Math.PI+k*Math.abs(x));
+
+  }
+
+  distortion.curve=curve;
+ }
+
+ function resume(){
+
+  if(ctx.state==="suspended")
+   ctx.resume().catch(()=>{});
+
+ }
+
+ return{
+  ctx,
+  audio,
+  preamp,
+  bass,
+  eq,
+  distortion,
+  output,
+  makeDistortion,
+  resume
+ };
+}
+
+function initializePlayer(){
+
+ document.querySelectorAll(".media-player")
+ .forEach(player=>{
+
+  const media=player.querySelector(".media-source");
+
+  const play=player.querySelector(".play-button");
+  const back=player.querySelector(".back-button");
+  const forward=player.querySelector(".forward-button");
+  const seek=player.querySelector(".seekbar");
+  const time=player.querySelector(".time");
+  const mute=player.querySelector(".mute-button");
+  const volume=player.querySelector(".volume");
+  const speed=player.querySelector(".speed-button");
+  const speedOptions=player.querySelector(".speed-options");
+  const fullscreen=player.querySelector(".fullscreen-button");
+  const visual=player.querySelector(".audio-visual");
+
+  let effects=null;
+
+  if(media.tagName==="AUDIO")
+   effects=setupAudioEffects(player);
+
+  function activate(){
+
+   if(effects)
+    effects.resume();
+
+  }
+
+  function togglePlay(){
+
+   activate();
+
+   if(media.paused)
+    media.play().catch(console.error);
+   else
+    media.pause();
+
+  }
+
+  play.onclick=togglePlay;
+
+  if(visual)
+   visual.onclick=togglePlay;
+
+  if(media.tagName==="VIDEO")
+   media.onclick=togglePlay;
+
+  media.onplay=()=>{
+
+   play.textContent="❚❚";
+
+   if(visual)
+    visual.classList.add("playing");
+
+  };
+
+  media.onpause=()=>{
+
+   play.textContent="▶";
+
+   if(visual)
+    visual.classList.remove("playing");
+
+  };
+
+  media.ontimeupdate=()=>{
+
+   const duration=media.duration||0;
+
+   seek.value=
+   duration
+   ?media.currentTime/duration*100
+   :0;
+
+   time.textContent=
+   fmt(media.currentTime)+" / "+fmt(duration);
+
+  };
+
+  media.onloadedmetadata=()=>{
+
+   time.textContent=
+   fmt(media.currentTime)+" / "+fmt(media.duration);
+
+  };
+
+  seek.oninput=()=>{
+
+   if(media.duration)
+    media.currentTime=
+    Number(seek.value)/100*media.duration;
+
+  };
+
+  back.onclick=()=>{
+
+   activate();
+
+   media.currentTime=
+   Math.max(0,media.currentTime-10);
+
+  };
+
+  forward.onclick=()=>{
+
+   activate();
+
+   media.currentTime=
+   Math.min(
+    media.duration||Infinity,
+    media.currentTime+10
+   );
+
+  };
+
+  volume.oninput=()=>{
+
+   media.volume=Number(volume.value);
+
+   media.muted=media.volume===0;
+
+   mute.textContent=
+   media.muted?"🔇":"🔊";
+
+  };
+
+  mute.onclick=()=>{
+
+   media.muted=!media.muted;
+
+   mute.textContent=
+   media.muted?"🔇":"🔊";
+
+  };
+
+  speed.onclick=event=>{
+
+   event.stopPropagation();
+
+   speedOptions.classList.toggle("show");
+
+  };
+
+  speedOptions.querySelectorAll(".speed-option")
+  .forEach(option=>{
+
+   option.onclick=()=>{
+
+    media.playbackRate=
+    Number(option.dataset.speed);
+
+    speed.textContent=
+    option.textContent;
+
+    speedOptions.classList.remove("show");
+
+   };
+
+  });
+
+  fullscreen.onclick=async()=>{
+
+   try{
+
+    if(document.fullscreenElement)
+     await document.exitFullscreen();
+    else
+     await player.requestFullscreen();
+
+   }catch(err){
+    console.error(err);
+   }
+
+  };
+
+  if(effects){
+
+   const preamp=
+   player.querySelector(".preamp");
+
+   const bass=
+   player.querySelector(".bass");
+
+   const distortion=
+   player.querySelector(".distortion");
+
+   const preampValue=
+   player.querySelector(".preamp-value");
+
+   const bassValue=
+   player.querySelector(".bass-value");
+
+   const distortionValue=
+   player.querySelector(".distortion-value");
+
+   preamp.oninput=()=>{
+
+    const value=Number(preamp.value);
+
+    effects.preamp.gain.value=
+    Math.pow(10,value/20);
+
+    preampValue.textContent=
+    (value>0?"+":"")+value+" dB";
+
+    activate();
+
+   };
+
+   bass.oninput=()=>{
+
+    const value=Number(bass.value);
+
+    effects.bass.gain.value=value;
+
+    bassValue.textContent=
+    "+"+value+" dB";
+
+    activate();
+
+   };
+
+   distortion.oninput=()=>{
+
+    const value=Number(distortion.value);
+
+    effects.makeDistortion(value);
+
+    distortionValue.textContent=
+    value+"%";
+
+    activate();
+
+   };
+
+   player.querySelectorAll(".eq-range")
+   .forEach(slider=>{
+
+    slider.oninput=()=>{
+
+     const index=
+     Number(slider.dataset.band);
+
+     const value=
+     Number(slider.value);
+
+     effects.eq[index].gain.value=value;
+
+     player.querySelector(
+      `[data-eq-value="${index}"]`
+     ).textContent=
+     (value>0?"+":"")+value+" dB";
+
+     activate();
+
+    };
+
+   });
+
+   player.querySelector(".effects-reset")
+   .onclick=()=>{
+
+    preamp.value=0;
+    bass.value=0;
+    distortion.value=0;
+
+    effects.preamp.gain.value=1;
+    effects.bass.gain.value=0;
+    effects.makeDistortion(0);
+
+    preampValue.textContent="0 dB";
+    bassValue.textContent="0 dB";
+    distortionValue.textContent="0%";
+
+    player.querySelectorAll(".eq-range")
+    .forEach((slider,i)=>{
+
+     slider.value=0;
+
+     effects.eq[i].gain.value=0;
+
+     player.querySelector(
+      `[data-eq-value="${i}"]`
+     ).textContent="0 dB";
+
+    });
+
+   };
+  }
+
+ });
+}
+
+function fmt(seconds){
+
+ if(!Number.isFinite(seconds)||seconds<0)
+  return"0:00";
+
+ const hours=Math.floor(seconds/3600);
+
+ const minutes=
+ Math.floor((seconds%3600)/60);
+
+ const secs=
+ Math.floor(seconds%60);
+
+ if(hours)
+  return hours+":"+
+  String(minutes).padStart(2,"0")+":"+
+  String(secs).padStart(2,"0");
+
+ return minutes+":"+
+ String(secs).padStart(2,"0");
+}
+
+/* =========================
+   F0T2 HASH NAVIGATION
+   ========================= */
+
+function openChannel(id){
+
+ location.hash=
+ "channel/"+encodeURIComponent(id);
+
+}
+
+function openMedia(id,type){
+
+ location.hash=
+ encodeURIComponent(type)+"/"+
+ encodeURIComponent(id);
+
+}
+
+function openAlbum(id){
+
+ location.hash=
+ "album/"+encodeURIComponent(id);
+
+}
+
+function goExplore(){
+
+ location.hash="";
+
+}
+
+function authorClick(handle){
+
+ const channel=findChannel(DATA,handle);
+
+ if(channel){
+
+  location.hash=
+  "channel/"+encodeURIComponent(channel);
+
+ }
+
+}
+
+function notFound(){
+
+ app.innerHTML=`
+
+ <div class="error">
+
+ <h1>404</h1>
+
+ <p>
+ This F0T2 item does not exist.
+ </p>
+
+ <button
+ class="explore-button"
+ onclick="goExplore()">
+
+ Return to Explore
+
+ </button>
+
+ </div>`;
+
+}
+
+document.addEventListener("click",event=>{
+
+ document.querySelectorAll(".speed-options.show")
+ .forEach(menu=>{
+
+  if(!menu.parentElement.contains(event.target))
+   menu.classList.remove("show");
+
+ });
+
+});
+</script>
+
+</body>
+</html>
