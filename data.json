@@ -3,7 +3,7 @@
     "name": "Montagem Rugada (Ultra Slowed + Hardstyle Remix)",
     "type": "audio",
     "thumbnail":"https://i.ytimg.com/vi/G07B6uUeaBU/maxresdefault.jpg",
-    "url": "https://flowerr4sr0.github.io/F0T2/dm5622.m4a",
+    "url": "https://flowerr4sr0.github.io/F0T2/music/dm5622.m4a",
     "description":"Provided to F0T2 by F0T2\\\\\\Author: Sayfalse, cape, JXRNDO\\Audio From: audio.com@Phonk",
     "author": "cape/Sayfalse/JXRNDO"
   },
@@ -34,10 +34,10 @@
     "tags":"verified/artist"
   },
   "album1": {
-    "name": "F0 Collection",
+    "name": "Montagem Rugada (Hardstyle Remix)",
     "type": "album",
-    "thumbnail": "album.jpg",
-    "authors": "arlo",
+    "thumbnail": "https://i.ytimg.com/vi/G07B6uUeaBU/maxresdefault.jpg",
+    "authors": "cape/Sayfalse/JXRNDO",
     "contentids": "h78jb"
   }
 }
